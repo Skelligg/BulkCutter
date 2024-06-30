@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./scss/styles.css">
+        <title>Bulk Cutter</title>
+        <script src="./js/index-script.js" type="module"></script>
+    </head>
+    <body>
+
+        <header>
+            <img src = "./resources/logo.png" alt="logo" class="logo">
+            <div class="header-text">
+                <h1>Bulk Tracker</h2>
+            </div>
+        </header>
+
+        <main>
+            <div class="search-part">
+                <div class="search">
+                    
+                    <div class="row">
+                        <input placeholder="Add a food to your meal plan" type="text" class="search-bar">
+                    </div>
+                    
+                
+                    <div class="result-box">
+                    
+                    </div>
+                
+                </div>
+                <p class="search-text">Press Enter for search results</p>
+            </div>  
+
+            <div class="added-foods">
+
+                <div class="wrapper" id="food1">
+                    <div class="collapsible">
+                        <input type="checkbox" id="collapsible-head">
+                        <label for="collapsible-head">Banana 
+                            <p>89 kcal</p>
+                            <img src = "./resources/arrow.png">
+                        </label>
+                        
+                        <div class="collapsible-text">
+                            <div class="weight">
+                                <h3>Nutrition</h3> 
+                                <input type="number" class="amount" min="0" max="9999" placeholder="100g">
+                            </div>
+                            <div class="nutrition">
+                                <p>Carbs:</p>
+                                <p>Fiber:</p>
+                                <p>Total Sugars:</p>
+                                <p>Added Sugars:</p>
+                                <p>Energy:</p>
+                                <p>Fat:</p>
+                                <p>Protein:</p>
+                                <input class="cost" type="number" placeholder="cost" min="0" max="9999">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="close"><p>x</p></button>
+                </div>
+                
+                <div class="wrapper" id="food2">
+                    <div class="collapsible">
+                        <input type="checkbox" id="collapsible-head2">
+                        <label for="collapsible-head2">Chocolate 
+                            <p>100 kcal</p>
+                            <img src = "./resources/arrow.png">
+                        </label>
+                        
+                        <div class="collapsible-text">
+                            <div class="weight">
+                                <h3>Nutrition</h3> 
+                                <input type="number" class="amount" min="0" max="9999" placeholder="100g">
+                            </div>
+                            <div class="nutrition">
+                                <p>Carbs:</p>
+                                <p>Fiber:</p>
+                                <p>Total Sugars:</p>
+                                <p>Added Sugars:</p>
+                                <p>Energy:</p>
+                                <p>Fat:</p>
+                                <p>Protein:</p>
+                                <input class="cost" type="number" placeholder="cost" min="0" max="9999">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="close"><p>x</p></button>
+                </div>
+            
+            </div>
+
+            
+
+        </main>
+    
+    </body>
+</html>
