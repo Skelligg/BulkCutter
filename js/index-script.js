@@ -24,12 +24,16 @@ function init(){
         button.addEventListener("click",removeWrapper);
     }
     document.querySelector("body").addEventListener("click", () => resultBox.innerHTML = "")
+    document.addEventListener('DOMContentLoaded', calculateTotal);
 }
 
 function removeWrapper(e){
     let targetWrapperID = e.target.getAttribute("for")
     let targetWrapper = document.querySelector(`#${targetWrapperID}`)
+    let index = addedFoods.indexOf(targetWrapper)
+    addedFoods.splice(index,1);
     targetWrapper.remove();
+    calculateTotal();
 }
 
 function showButton(event){
@@ -99,7 +103,7 @@ async function fetchNutrients(name,index){
           }
 
         nutrientData = await response.json();
-        console.log(nutrientData)
+        //console.log(nutrientData)
         addFood(data.hints[index].food.label);
     }
     catch(error){
@@ -119,7 +123,7 @@ async function fetchSearchResults(foodItem){
           }
 
         data = await response.json();
-        console.log(data)
+        //console.log(data)
 
         result = [];
 
@@ -150,7 +154,7 @@ async function fetchSearchResults(foodItem){
 function addFood(name){
 
     let weight = nutrientData.totalWeight;
-    let caloriesPer100g = (nutrientData.totalNutrients.ENERC_KCAL.quantity.toFixed(2) / weight * 100).toFixed(0);
+    let caloriesPer100g = Number(nutrientData.totalNutrients.ENERC_KCAL.quantity.toFixed(2) / weight * 100).toFixed(0);
     let carbsPer100g = (nutrientData.totalNutrients.CHOCDF.quantity.toFixed(2) / weight * 100).toFixed(2);
     let fiberPer100g = (nutrientData.totalNutrients.FIBTG.quantity.toFixed(2) / weight * 100).toFixed(2);
     let totalSugarsPer100g = (nutrientData.totalNutrients.SUGAR.quantity.toFixed(2) / weight * 100).toFixed(2);
@@ -176,7 +180,7 @@ function addFood(name){
     // Create the label
     const label = document.createElement('label');
     label.setAttribute('for', `food-${addedFoodID}`);
-    label.innerHTML = `${name} <p>${caloriesPer100g} kCal</p><img src="./resources/arrow.png">`;
+    label.innerHTML = `${shortenName(name)} <p>${caloriesPer100g} kCal</p><img src="./resources/arrow.png">`;
 
     // Create the collapsible-text div
     const collapsibleText = document.createElement('div');
@@ -214,8 +218,7 @@ function addFood(name){
     const nutritionFacts = {
         carbs: `Carbs: <strong>${carbsPer100g} g</strong>`,
         fiber: `Fiber: <strong>${fiberPer100g} g</strong>`,
-        totalSugars: `Total Sugars: <strong>${totalSugarsPer100g} g</strong>`,
-        addedSugars: `Added Sugars: <strong>${totalSugarsPer100g} g</strong>`,
+        totalSugars: `Sugar: <strong>${totalSugarsPer100g} g</strong>`,
         energy: `Energy: <strong>${energyPer100g} kJ</strong>`,
         fat: `Fat: <strong>${fatPer100g} g</strong>`,
         protein: `Protein: <strong>${proteinPer100g} g</strong>`
@@ -269,22 +272,94 @@ function addFood(name){
         nutrientElements.carbs.innerHTML = `Carbs: <strong>${(carbsPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.fiber.innerHTML = `Fiber: <strong>${(fiberPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.totalSugars.innerHTML = `Total Sugars: <strong>${(totalSugarsPer100g * amount / 100).toFixed(2)} g</strong>`;
-        nutrientElements.addedSugars.innerHTML = `Added Sugars: <strong>${(totalSugarsPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.energy.innerHTML = `Energy: <strong>${(energyPer100g * amount / 100).toFixed(2)} kJ</strong>`;
         nutrientElements.fat.innerHTML = `Fat: <strong>${(fatPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.protein.innerHTML = `Protein: <strong>${(proteinPer100g * amount / 100).toFixed(2)} g</strong>`;
         label.innerHTML = `${name} <p>${(caloriesPer100g * amount / 100).toFixed(0)} kCal</p><img src="./resources/arrow.png">`;
+        calculateTotal();
     });
+
+    costInput.addEventListener('input', calculateTotal);
 
     addedFoodID++;
     addedFoods.push(wrapper);
     buttons = document.querySelectorAll(".close");
+    calculateTotal();
 }
 
 function calculateTotal(){
+    let totalCalories = 0;
+    let totalCarbs = 0;
+    let totalFiber = 0;
+    let totalSugars = 0;
+    let totalEnergy = 0;
+    let totalFat = 0;
+    let totalProtein = 0;
+    let totalWeight = 0;
+    let totalCost = 0;
 
+    addedFoods.forEach(wrapper => {
+        const amount = parseFloat(wrapper.querySelector('.amount').value) || 100;
+
+        const getValue = (label) => {
+            const p = Array.from(wrapper.querySelectorAll('p')).find(p => p.innerText.includes(label));
+            if (p) {
+                const strongText = p.querySelector('strong').innerText;
+                const numericValue = parseFloat(strongText.replace(/[^\d.-]/g, ''));
+                return numericValue;
+            }
+            return 0;
+        };
+
+        const caloriesText = wrapper.querySelector('label p').innerText;
+        const calories = parseFloat(caloriesText.replace(/[^\d.-]/g, ''));
+
+        const carbs = getValue('Carbs');
+        const fiber = getValue('Fiber');
+        const sugars = getValue('Sugars');
+        const energy = getValue('Energy');
+        const fat = getValue('Fat');
+        const protein = getValue('Protein');
+        const cost = parseFloat(wrapper.querySelector('.cost').value) || 0;
+
+        totalCalories += calories;
+        totalCarbs += carbs;
+        totalFiber += fiber;
+        totalSugars += sugars;
+        totalEnergy += energy;
+        totalFat += fat;
+        totalProtein += protein;
+        totalWeight += amount;
+        totalCost += cost;
+    });
+
+    document.getElementById('total-calories').innerText = `${totalCalories.toFixed(0)} kCal`;
+    document.getElementById('total-carbs').innerHTML = `Carbs: <strong>${totalCarbs.toFixed(2)} g</strong>`;
+    document.getElementById('total-fiber').innerHTML = `Fiber: <strong>${totalFiber.toFixed(2)} g</strong>`;
+    document.getElementById('total-sugars').innerHTML = `Sugars: <strong>${totalSugars.toFixed(2)} g</strong>`;
+    document.getElementById('total-energy').innerHTML = `Energy: <strong>${totalEnergy.toFixed(2)} kJ</strong>`;
+    document.getElementById('total-fat').innerHTML = `Fat: <strong>${totalFat.toFixed(2)} g</strong>`;
+    document.getElementById('total-protein').innerHTML = `Protein: <strong>${totalProtein.toFixed(2)} g</strong>`;
+    document.getElementById('total-weight').innerHTML = `Weight: <strong>${totalWeight.toFixed(2)} g</strong>`;
+    document.getElementById('total-cost').innerHTML = `Cost: <strong>${totalCost.toFixed(2)}</strong>`;
 }
 
-function print(){
-    console.log(foodItem)
+
+function shortenName(str) {
+    // Ensure the string is at least 26 characters long
+    if (str.length <= 26) {
+        return str;
+    }
+
+    // Find the last space before the 26th character
+    const substring = str.slice(0, 26);
+    const lastSpaceIndex = substring.lastIndexOf(' ');
+
+    // If there's no space before the 26th character, return the entire string
+    if (lastSpaceIndex === -1) {
+        return str;
+    }
+
+    // Slice the string at the last space before the 26th character
+    return str.slice(0, lastSpaceIndex);
 }
