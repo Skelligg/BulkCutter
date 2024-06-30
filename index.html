@@ -19,14 +19,14 @@
         <main>
             <div class="search-part">
                 <div class="search">
-                    
+
                     <div class="row">
                         <input placeholder="Add a food to your meal plan" type="text" class="search-bar">
                     </div>
-                    
-                
+
+
                     <div class="result-box">
-                    
+
                     </div>
                 
                 </div>
@@ -35,46 +35,48 @@
 
             <div class="added-foods">
 
-                <div class="wrapper" id="food1">
+                <div class="wrapper" id="Wrapper-1">
                     <div class="collapsible">
-                        <input type="checkbox" id="collapsible-head">
-                        <label for="collapsible-head">Banana 
-                            <p>89 kcal</p>
+                        <input type="checkbox" id="food-4">
+                        <label for="food-4">Banana 
+                            <p>89 kCal</p>
                             <img src = "./resources/arrow.png">
                         </label>
                         
                         <div class="collapsible-text">
                             <div class="weight">
                                 <h3>Nutrition</h3> 
-                                <input type="number" class="amount" min="0" max="9999" placeholder="100g">
+                                <input type="number" class="amount" min="0" max="9999" placeholder="100">
+                                <p>g</p>
                             </div>
                             <div class="nutrition">
-                                <p>Carbs:</p>
-                                <p>Fiber:</p>
-                                <p>Total Sugars:</p>
-                                <p>Added Sugars:</p>
-                                <p>Energy:</p>
-                                <p>Fat:</p>
-                                <p>Protein:</p>
+                                <p>Carbs: <strong>100 g</strong></p>
+                                <p>Fiber: <strong>100 g</strong></p>
+                                <p>Total Sugars: <strong>100 g</strong></p>
+                                <p>Added Sugars: <strong>100 g</strong></p>
+                                <p>Energy: <strong>100 kj</strong></p>
+                                <p>Fat: <strong>100 g</strong></p>
+                                <p>Protein: <strong>100 g</strong></p>
                                 <input class="cost" type="number" placeholder="cost" min="0" max="9999">
                             </div>
                         </div>
                     </div>
-                    <button class="close"><p>x</p></button>
+                    <button class="close" for="Wrapper-1">x</button>
                 </div>
                 
-                <div class="wrapper" id="food2">
+                <div class="wrapper" id="Wrapper-2">
                     <div class="collapsible">
                         <input type="checkbox" id="collapsible-head2">
                         <label for="collapsible-head2">Chocolate 
-                            <p>100 kcal</p>
+                            <p>100 kCal</p>
                             <img src = "./resources/arrow.png">
                         </label>
                         
                         <div class="collapsible-text">
                             <div class="weight">
                                 <h3>Nutrition</h3> 
-                                <input type="number" class="amount" min="0" max="9999" placeholder="100g">
+                                <input type="number" class="amount" min="0" max="9999" placeholder="100">
+                                <p>g</p>
                             </div>
                             <div class="nutrition">
                                 <p>Carbs:</p>
@@ -88,12 +90,42 @@
                             </div>
                         </div>
                     </div>
-                    <button class="close"><p>x</p></button>
+                    <button class="close" for="Wrapper-2">x</button>
                 </div>
             
             </div>
 
-            
+            <div class="total">
+
+                <div class="wrapper total">
+                    <div class="collapsible">
+                        <input type="checkbox" id="total-head">
+                        <label for="total-head">Total 
+                            <p>100 kCal</p>
+                            <img src = "./resources/arrow.png">
+                        </label>
+                        
+                        <div class="collapsible-text">
+                            <div class="weight">
+                                <h3>Nutrition</h3> 
+                                <input type="number" class="amount" min="0" max="9999" placeholder="100">
+                                <p>g</p>
+                            </div>
+                            <div class="nutrition">
+                                <p>Carbs:</p>
+                                <p>Fiber:</p>
+                                <p>Total Sugars:</p>
+                                <p>Added Sugars:</p>
+                                <p>Energy:</p>
+                                <p>Fat:</p>
+                                <p>Protein:</p>
+                                <input class="cost" type="number" placeholder="cost" min="0" max="9999">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         </main>
     

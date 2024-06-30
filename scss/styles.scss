@@ -57,8 +57,8 @@ h1{
     background-image: url("../resources/search-image.png");
     background-repeat: no-repeat;
     background-position: right center;
-    background-size: 20px;
-    font-size: 18px;
+    background-size: 25px;
+    font-size: 1.5rem;
     font-family: $font;
     border: 0;
     outline: 0;
@@ -74,7 +74,7 @@ h1{
 
 .search-text{
     margin-right: auto;
-    font-size: 10px;
+    font-size: rem;
     color: $main-blue;
     padding-top: 5px;
     padding-bottom: 15px;
@@ -89,12 +89,13 @@ h1{
     overflow-y: scroll;
     position: absolute;
     z-index: 2;
-    background-color: $background-color;
+    background-color: #fff;
 
     ul li{
         list-style: none;
         padding: 12px 10px;
         cursor: pointer;
+        font-size: 1.5rem;
     }
     ul{
         border-top: 1px solid #E4E4E4;
@@ -122,7 +123,7 @@ h1{
     overflow: hidden;
     font-weight: 500;
 
-    #collapsible-head{
+    #food-4{
         display:none;
     }
     #collapsible-head2{
@@ -132,6 +133,7 @@ h1{
     label{
         position: relative;
         font-weight: 400;
+        font-size: 1.5rem;
         background: $main-grey;
         display: block;
         margin-bottom: 10px;
@@ -151,7 +153,7 @@ h1{
         content:"";
         position: absolute;
         right: 15px;
-        top:15px;
+        top:21px;
         width:18px;
         height:18px;
         background: url("../resources/arrow.png") no-repeat 0 0;
@@ -195,24 +197,34 @@ h1{
         flex-direction: row;
         gap: 10px; 
         margin-top: 10px;
+
+        p{
+            font-size: 1rem;
+            margin-right: 10px;
+        }
     }
 
     h3{
+        font-size: 1.5rem;
         padding: 10px 10px;
         color: $main-blue;
+        flex:2
     }
 
+
     .amount {
-        padding: 3px;
+        padding: 5px;
         text-align: center;
-        margin-right: 10px;
-        width: 40px;
+        margin-right:0;
+        height: 35px;
+        width: 70px;
         border: 1px solid #E4E4E4;
         border-radius: 4px;
-        font-size: 10px;
+        font-size: 1.4rem;
     }
 
     .cost {
+        font-size: 1rem;
         padding-left: 5px;
         width: 100%;
         border: 1px solid #E4E4E4;
@@ -227,12 +239,15 @@ h1{
         padding-bottom: 0;
 
         p {
-            font-size: 10px;
+            font-size: 0.9rem;
             margin: 0; 
             padding: 5px; 
             background-color: #f0f0f0;
             border-radius: 4px; 
             text-align: left; 
+        }
+        strong {
+            display: block;
         }
     }
 }
@@ -251,37 +266,46 @@ input[type="number"] {
     height: 20px;
     width: 20px;
     padding-bottom: 2px;
-    margin-top:13px;
+    margin-top:20px;
     margin-left: 15px;
     opacity: 0;
     transition: opacity 0.5s;
     border: none;
     border-radius: 15px;
-
-    p {
-        color:#828282;
-    }
-
+    color:#828282;
 }
 
 .close:hover{
     box-shadow: 0 2px 1px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: box-shadow 0.2s ease; 
-    p{
-        color:#5c5c5c;
-    }
+    color:#5c5c5c;
+
 }
 
 .close.visible {
     opacity: 1;
 }
 
+.total{
+    margin-right: 15px;
+    padding-top: 20px;
+    label{
+        background-color: #c6c6c6;
+    }
+
+    #total-head{
+        display: none;
+    }
+}
+
+
+
 @media only screen and (max-width:801px){
     .close{
         opacity: 1;
         position: relative;
         right:10px;
-        margin-top:15px;
+        margin-top:20px;
     }
 }
