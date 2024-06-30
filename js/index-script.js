@@ -271,7 +271,7 @@ function addFood(name){
         const amount = amountInput.value;
         nutrientElements.carbs.innerHTML = `Carbs: <strong>${(carbsPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.fiber.innerHTML = `Fiber: <strong>${(fiberPer100g * amount / 100).toFixed(2)} g</strong>`;
-        nutrientElements.totalSugars.innerHTML = `Total Sugars: <strong>${(totalSugarsPer100g * amount / 100).toFixed(2)} g</strong>`;
+        nutrientElements.totalSugars.innerHTML = `Sugar: <strong>${(totalSugarsPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.energy.innerHTML = `Energy: <strong>${(energyPer100g * amount / 100).toFixed(2)} kJ</strong>`;
         nutrientElements.fat.innerHTML = `Fat: <strong>${(fatPer100g * amount / 100).toFixed(2)} g</strong>`;
         nutrientElements.protein.innerHTML = `Protein: <strong>${(proteinPer100g * amount / 100).toFixed(2)} g</strong>`;
@@ -316,7 +316,7 @@ function calculateTotal(){
 
         const carbs = getValue('Carbs');
         const fiber = getValue('Fiber');
-        const sugars = getValue('Sugars');
+        const sugars = getValue('Sugar');
         const energy = getValue('Energy');
         const fat = getValue('Fat');
         const protein = getValue('Protein');
@@ -336,7 +336,7 @@ function calculateTotal(){
     document.getElementById('total-calories').innerText = `${totalCalories.toFixed(0)} kCal`;
     document.getElementById('total-carbs').innerHTML = `Carbs: <strong>${totalCarbs.toFixed(2)} g</strong>`;
     document.getElementById('total-fiber').innerHTML = `Fiber: <strong>${totalFiber.toFixed(2)} g</strong>`;
-    document.getElementById('total-sugars').innerHTML = `Sugars: <strong>${totalSugars.toFixed(2)} g</strong>`;
+    document.getElementById('total-sugars').innerHTML = `Sugar: <strong>${totalSugars.toFixed(2)} g</strong>`;
     document.getElementById('total-energy').innerHTML = `Energy: <strong>${totalEnergy.toFixed(2)} kJ</strong>`;
     document.getElementById('total-fat').innerHTML = `Fat: <strong>${totalFat.toFixed(2)} g</strong>`;
     document.getElementById('total-protein').innerHTML = `Protein: <strong>${totalProtein.toFixed(2)} g</strong>`;
