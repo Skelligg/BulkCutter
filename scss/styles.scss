@@ -292,7 +292,7 @@ input[type="number"] {
 }
 
 .total{
-    margin-right: 15px;
+    margin-right: 17px;
     padding-top: 20px;
     label{
         background-color: #c6c6c6;
@@ -373,6 +373,27 @@ body {
     display: none;
   }
 
+  .download{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    width:12vmin;
+    height: 3vmin;
+    min-height: 25px;
+    min-width: 75px;
+    border-radius: 4px;
+    border: none;
+    padding: 5px;
+    font-size: 0.9rem;
+    color: $main-blue;
+    background-color: $main-grey;
+    box-shadow: 0 2px 1px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+
+  .download:active{
+    box-shadow: 0 2px 1px rgba(0,0,0,0.3);
+  }
 
 @media only screen and (max-width:801px){
     .close{
@@ -402,6 +423,10 @@ body {
     }
 
     .search-part > p{
+        font-size: 0.8rem;
+    }
+
+    .download{
         font-size: 0.8rem;
     }
 

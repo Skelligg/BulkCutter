@@ -27,6 +27,7 @@ function init(){
     document.addEventListener('DOMContentLoaded', calculateTotal);
 }
 
+
 function removeWrapper(e){
     let targetWrapperID = e.target.getAttribute("for")
     let targetWrapper = document.querySelector(`#${targetWrapperID}`)
