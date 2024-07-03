@@ -438,14 +438,6 @@ body {
 
     .collapsible{
 
-        .collapsible-text{
-            .weight{
-                p{
-                    font-size: 0.9rem;
-                    margin-right: 10px;
-                }
-            }
-
         label{
             font-size: 1rem;
         }
@@ -465,19 +457,27 @@ body {
             background: url("../resources/arrow.png") no-repeat 0 0;
         }
 
+        .collapsible-text{
+            .weight{
+                p{
+                    font-size: 0.9rem;
+                    margin-right: 10px;
+                }
+            }
+
         h3{
             font-size: 1.2rem;
         }
 
         .nutrition {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); 
             gap: 8px; 
             padding: 8px;
             padding-bottom: 0;
     
             p {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
                 margin: 0; 
                 padding: 5px; 
                 background-color: #f0f0f0;
@@ -492,4 +492,5 @@ body {
     }
 
 }
+
 }
