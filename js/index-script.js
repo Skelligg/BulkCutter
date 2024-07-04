@@ -291,6 +291,7 @@ function addFood(name, APIfoodID, measureURI, lS){
     const costInput = document.createElement('input');
     costInput.type = 'number';
     costInput.className = 'cost';
+    costInput.value = 0;
 
     // Append the cost input to the nutrition div
     costP.appendChild(costInput)
@@ -406,15 +407,29 @@ function calculateTotal(){
         const getValue = (label) => {
             const p = Array.from(wrapper.querySelectorAll('p')).find(p => p.innerText.includes(label));
             if (p) {
-                const strongText = p.querySelector('strong').innerText;
-                const numericValue = parseFloat(strongText.replace(/[^\d.-]/g, ''));
-                return numericValue;
+                const input = p.querySelector('input');
+                
+                if (input) {
+                    return parseFloat(input.value) || 0;
+                } else {
+                    const strongText = p.querySelector('strong');
+                    
+                    if (strongText) {
+                        return parseFloat(strongText.innerText.replace(/[^\d.-]/g, '')) || 0;
+                    }
+                }
             }
             return 0;
         };
 
-        const caloriesText = wrapper.querySelector('label p').innerText;
-        const calories = parseFloat(caloriesText.replace(/[^\d.-]/g, ''));
+        const calInput = wrapper.querySelector('.custom-cal');
+        let calories;
+        if (calInput) {
+            calories = parseFloat(calInput.value) || 0;
+        } else {
+            const caloriesText = wrapper.querySelector('label p').innerText;
+            calories = parseFloat(caloriesText.replace(/[^\d.-]/g, '')) || 0;
+        }
 
         const carbs = getValue('Carbs');
         const fiber = getValue('Fiber');
@@ -577,11 +592,6 @@ function addCustomFood(name){
     checkbox.id = `food-${newFoodID}`;
     checkbox.style.display = "none";
 
-    // Create the label
-    const label = document.createElement('label');
-    label.setAttribute('for', `food-${newFoodID}`);
-    label.innerHTML = `${shortenName(name)} <p>${caloriesPer100g} kCal</p><img src="./resources/arrow.png">`;
-
     // Create the collapsible-text div
     const collapsibleText = document.createElement('div');
     collapsibleText.className = 'collapsible-text';
@@ -612,27 +622,70 @@ function addCustomFood(name){
     const nutritionDiv = document.createElement('div');
     nutritionDiv.className = 'nutrition';
 
-    // Create the p elements for nutrition facts
-    const nutritionFacts = {
-        carbs: `Carbs: <strong>${carbsPer100g} g</strong>`,
-        fiber: `Fiber: <strong>${fiberPer100g} g</strong>`,
-        totalSugars: `Sugar: <strong>${totalSugarsPer100g} g</strong>`,
-        energy: `Energy: <strong>${energyPer100g} kJ</strong>`,
-        fat: `Fat: <strong>${fatPer100g} g</strong>`,
-        protein: `Protein: <strong>${proteinPer100g} g</strong>`
-    };
 
-    const nutrientElements = {};
-    for (const [key, fact] of Object.entries(nutritionFacts)) {
+    // Create the p elements for nutrition facts
+    const nutritionFacts = [
+        `Carbs: _ g`,
+        `Fiber: _ g`,
+        `Sugar: _ g`,
+        `Energy: _ kJ`,
+         `Fat: _ g`,
+        `Protein: _ g`
+    ];
+
+    const customInputs = [];
+
+    for (let i = 0; i < nutritionFacts.length; i++) {
         const p = document.createElement('p');
-        p.innerHTML = fact;
+        p.innerHTML = nutritionFacts[i];
+        const textParts = p.textContent.split('_');
+        const beforeTextNode = document.createTextNode(textParts[0]);
+
+        customInputs[i] = document.createElement("input");
+        customInputs[i].type = "number"
+        customInputs[i].className = "custom"
+
+        const afterTextNode = document.createTextNode(textParts[1]);
+        p.textContent = '';
+        p.appendChild(beforeTextNode);
+        p.appendChild(customInputs[i]);
+        p.appendChild(afterTextNode);
+
         nutritionDiv.appendChild(p);
-        nutrientElements[key] = p;
     }
 
+    // Create the label
+    const label = document.createElement('label');
+    label.setAttribute('for', `food-${newFoodID}`);
+    const afterText1 = ' kCal';
+    const pElement = document.createElement('p');
+    pElement.className = "customP"
+    const afterTextNode1 = document.createTextNode(afterText1);
+    const calInput = document.createElement('input');
+    calInput.type = 'number';
+    calInput.className = "custom-cal"
+    const arrowsvg = document.createElement("img")
+    arrowsvg.src = "./resources/arrow.png"
+    pElement.appendChild(calInput);
+    pElement.appendChild(afterTextNode1);
+
+    label.innerHTML = `${shortenName(name)} `;
+    label.appendChild(pElement)
+    label.appendChild(arrowsvg)
+
     // Create the cost input
+    const beforeText = 'Cost: ';
     const costP = document.createElement('p');
-    costP.innerHTML = 'Cost: <input type="number" class="cost" >'
+    const beforeTextNode = document.createTextNode(beforeText);
+    const costInput = document.createElement('input');
+    costInput.type = 'number';
+    costInput.className = "cost"
+    costP.appendChild(beforeTextNode);
+    costP.appendChild(costInput)
+
+    const warningText = document.createElement("p")
+    warningText.innerHTML = "<strong>Warning!</strong> Custom foods are not saved on refresh."
+    warningText.className = "warning"
 
     // Append the cost input to the nutrition div
     nutritionDiv.appendChild(costP);
@@ -640,6 +693,7 @@ function addCustomFood(name){
     // Append the weight div and nutrition div to the collapsible-text div
     collapsibleText.appendChild(weightDiv);
     collapsibleText.appendChild(nutritionDiv);
+    collapsibleText.appendChild(warningText)
 
     // Append the input, label, and collapsible-text to the collapsible div
     collapsible.appendChild(checkbox);
@@ -650,7 +704,7 @@ function addCustomFood(name){
     const closeButton = document.createElement('button');
     closeButton.className = 'close';
     closeButton.innerHTML = 'x';
-    (lS) ? closeButton.setAttribute("for", `${newFoodID}`) : closeButton.setAttribute("for", `wrapper-${newFoodID}`);
+    closeButton.setAttribute("for", `wrapper-${newFoodID}`);
     
     closeButton.addEventListener("click", removeWrapper);
 
@@ -665,14 +719,14 @@ function addCustomFood(name){
     foodTableRow.id = `food-row-${newFoodID}`;
     const rowData = [
         name,
-        `${caloriesPer100g} kCal`,
-        `${amountInput.value} g`,
-        `${carbsPer100g} g`,
-        `${fiberPer100g} g`,
-        `${totalSugarsPer100g} g`,
-        `${energyPer100g} kJ`,
-        `${fatPer100g} g`,
-        `${proteinPer100g} g`,
+        `0 kCal`,
+        `0 g`,
+        `0 g`,
+        `0 g`,
+        `0 g`,
+        `0 kJ`,
+        `0 g`,
+        `0 g`,
         `0.00`
     ];
     
@@ -683,4 +737,49 @@ function addCustomFood(name){
     });
 
     document.getElementById('food-table-body').appendChild(foodTableRow);
+
+    addedFoods.push(wrapper);
+    addedFoodID++;
+    buttons = document.querySelectorAll(".close");
+
+    closeButton.addEventListener("click", () => {
+        document.getElementById(`food-row-${newFoodID}`).remove();
+        calculateTotal();
+    });
+
+    // Add event listeners to all inputs
+    calInput.addEventListener('input', () => updateFoodData(newFoodID, customInputs, amountInput, costInput, calInput))
+    amountInput.addEventListener('input', () => updateFoodData(newFoodID, customInputs, amountInput, costInput, calInput));
+    customInputs.forEach(input => {
+        input.addEventListener('input', () => updateFoodData(newFoodID, customInputs, amountInput, costInput, calInput));
+    });
+    costInput.addEventListener('input', () => updateFoodData(newFoodID, customInputs, amountInput, costInput, calInput));
+}
+
+function updateFoodData(foodID, customInputs, amountInput, costInput, calInput) {
+    const amount = parseFloat(amountInput.value) || 0;
+    const cost = parseFloat(costInput.value) || 0;
+    const calories = parseFloat(calInput.value) || 0;
+
+    const nutritionValues = customInputs.map(input => parseFloat(input.value) || 0);
+
+    const tableRow = document.getElementById(`food-row-${foodID}`);
+    const rowData = [
+        tableRow.children[0].innerText,
+        `${calories.toFixed(0)} kCal`,
+        `${amount.toFixed(2)} g`,
+        `${nutritionValues[0].toFixed(2)} g`,
+        `${nutritionValues[1].toFixed(2)} g`,
+        `${nutritionValues[2].toFixed(2)} g`,
+        `${nutritionValues[3].toFixed(2)} kJ`,
+        `${nutritionValues[4].toFixed(2)} g`,
+        `${nutritionValues[5].toFixed(2)} g`,
+        `${cost.toFixed(2)}`
+    ];
+
+    rowData.forEach((data, index) => {
+        tableRow.children[index].innerText = data;
+    });
+
+    calculateTotal();
 }
