@@ -161,6 +161,7 @@ async function fetchSearchResults(foodItem){
     }
     catch(error){
         console.error(error)
+        apiError();
     }
 }
 
@@ -199,7 +200,14 @@ async function fetchNutrients(name, APIfoodID, measureURI, lS){
     }
     catch(error){
         console.log(error)
+        apiError();
     }
+}
+
+function apiError() {
+    const p = document.querySelector(".error")
+    p.innerHTML = "<strong>API Error! Please try again later.</strong>"
+    p.style.color = "rgb(207, 0, 0)";
 }
 
 function addFood(name, APIfoodID, measureURI, lS){
