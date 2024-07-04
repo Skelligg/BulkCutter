@@ -1,4 +1,6 @@
 
+// left to do - add error div when max api calls reached
+
 const app_id = "e0854d27";
 const app_key = "ecc8bdb05ddbd3dbe828f0ee73c8c791"
 
@@ -7,8 +9,23 @@ let addedFoods = [];
 let addedFoodID = 0;
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
+let canUseStorage = false;
 
-getFoodsFromLocalStorage();
+try {
+    let key = "test" + Date.now() + Math.random();
+    localStorage.setItem(key, key);
+    if (localStorage.getItem(key) == key) {
+        canUseStorage = true;
+        localStorage.removeItem(key);
+    }
+}
+catch (e) {
+    console.log(e)
+}
+
+if(canUseStorage){
+    getFoodsFromLocalStorage();
+}
 
 async function getFoodsFromLocalStorage(){
     let keys = Object.keys(localStorage);
@@ -64,7 +81,9 @@ function removeWrapper(e){
     let index = addedFoods.indexOf(targetWrapper)
     addedFoods.splice(index,1);
     targetWrapper.remove();
-    localStorage.removeItem(targetWrapperID);
+    if(canUseStorage){
+        localStorage.removeItem(targetWrapperID);
+    }
     calculateTotal();
 }
 
@@ -207,17 +226,24 @@ function addFood(name, APIfoodID, measureURI, lS){
             }
         }
     }
-    else if(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
-        while(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
-            addedFoodID++;
+    else if (canUseStorage){
+        if(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
+            while(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
+                addedFoodID++;
+            }
+            wrapper.id = `wrapper-${addedFoodID}`; 
+            newFoodID = `${addedFoodID}`   
         }
-        wrapper.id = `wrapper-${addedFoodID}`; 
-        newFoodID = `${addedFoodID}`   
+        else{
+            wrapper.id = `wrapper-${addedFoodID}`; 
+            newFoodID = `${addedFoodID}`  
+        }
     }
     else{
         wrapper.id = `wrapper-${addedFoodID}`; 
-        newFoodID = `${addedFoodID}`  
+            newFoodID = `${addedFoodID}`  
     }
+
 
     // Create the collapsible div
     const collapsible = document.createElement('div');
@@ -379,7 +405,7 @@ function addFood(name, APIfoodID, measureURI, lS){
         calculateTotal();
     });
 
-    if(!lS){
+    if(!lS && canUseStorage){
         localStorage.setItem(`wrapper-${addedFoodID}`, `${name}-${APIfoodID}-${measureURI}`);
         addedFoodID++;
     }
@@ -570,12 +596,18 @@ function addCustomFood(name){
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
 
-    if(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
-        while(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
-            addedFoodID++;
+    if(canUseStorage){
+        if(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
+            while(localStorage.getItem(`wrapper-${addedFoodID}`) != null){
+                addedFoodID++;
+            }
+            wrapper.id = `wrapper-${addedFoodID}`; 
+            newFoodID = `${addedFoodID}`   
         }
-        wrapper.id = `wrapper-${addedFoodID}`; 
-        newFoodID = `${addedFoodID}`   
+        else{
+            wrapper.id = `wrapper-${addedFoodID}`; 
+            newFoodID = `${addedFoodID}`  
+        }
     }
     else{
         wrapper.id = `wrapper-${addedFoodID}`; 
