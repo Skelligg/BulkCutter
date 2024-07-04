@@ -33,7 +33,7 @@ h1{
 }
 
 .header-text{
-    margin-top:100px;
+    margin-top:150px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -402,6 +402,10 @@ body {
     display: none;
   }
 
+  .downloadable {
+    margin-bottom: 75px;
+  }
+
   .download{
     display: block;
     margin: auto;
@@ -423,7 +427,7 @@ body {
 
   .centerP{
     text-align: center;
-    margin-bottom: 75px;
+    margin-bottom: 50px;
   }
 
   .show-table{

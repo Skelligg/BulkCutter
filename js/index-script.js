@@ -230,7 +230,7 @@ function addFood(name, APIfoodID, measureURI, lS){
         for (let i = 0; i < localStorage.length; i++) {
             if(localStorage.getItem(localStorage.key(i)) == `${name}-${APIfoodID}-${measureURI}`){
                 wrapper.id = `${localStorage.key(i)}`;
-                newFoodID = `${localStorage.key(i)}`;
+                newFoodID = `${localStorage.key(i).slice(-1)}`;
             }
         }
     }
@@ -344,7 +344,7 @@ function addFood(name, APIfoodID, measureURI, lS){
     const closeButton = document.createElement('button');
     closeButton.className = 'close';
     closeButton.innerHTML = 'x';
-    (lS) ? closeButton.setAttribute("for", `${newFoodID}`) : closeButton.setAttribute("for", `wrapper-${newFoodID}`);
+    closeButton.setAttribute("for", `wrapper-${newFoodID}`)
     
     closeButton.addEventListener("click", removeWrapper);
 

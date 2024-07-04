@@ -125,16 +125,22 @@
                     </tfoot>
                 </table>
 
-                <button class="download">Download</button>
+                <!-- HTML2PDF not rendering table properly-->
+                <!-- <button class="download">Download</button> -->
          </div>
 
         </main>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
-            document.querySelector(".download").addEventListener('click', async function() {
-                const toDl = document.querySelector(".pdf-table");
-                html2pdf().set({filename: "Calorie-Plan.pdf"}).from(toDl).save();
+            document.querySelector(".download").addEventListener('click', function() {
+                const toDl = document.querySelector(".downloadable");
+                html2pdf().set({
+                    margin: 2,
+                    filename: "Calorie-Plan.pdf",
+                    image: { type: 'jpeg', quality: 1 },
+                    jsPDF: {format: 'a3' }
+                }).from(toDl).toPdf().save();
             });
                 
         </script>
